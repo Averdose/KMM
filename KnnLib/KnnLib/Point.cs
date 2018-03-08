@@ -27,5 +27,10 @@ namespace KnnLib
         /// Output class given by the algorithm
         /// </summary>
         public string ResultLabel { get; set; }
+
+        /// <summary>
+        /// Distance to the origin
+        /// </summary>
+        public double DistanceToOrigin { get; set; }
     }
 }
