@@ -10,7 +10,7 @@ namespace KNN
     {
         static void Main(string[] args)
         {
-            Problem problem = new Problem();
+            Problem problem = new Problem(null);
             Loader loader = new Loader("data.simple.train.100.csv");
             problem.LearningPoints = loader.LoadPoints();
             Console.WriteLine("{0},{1}:{2}", problem.LearningPoints[0].X, problem.LearningPoints[0].Y, problem.LearningPoints[0].TrueLabel);

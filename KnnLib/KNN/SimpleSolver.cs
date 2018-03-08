@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace KNN
 {
-    class SimpleSolver : IKNN
+    class SimpleSolver : IKnn
     {
-        public void Classify(Problem problem, int k)
+        public void Classify(List<Point> testSet, int k)
         {
-            Point[] neighbourPoints = new Point[k];
-            for(int i = 0; i< problem.InputPoints.Count; ++i)
-            {
+            //Point[] neighbourPoints = new Point[k];
+            //for(int i = 0; i< problem.InputPoints.Count; ++i)
+            //{
 
-            }
+            //}
         }
 
-        public void Train()
+        public void Train(List<Point> trainSet)
         {
             
         }

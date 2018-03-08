@@ -21,19 +21,19 @@ namespace KNN
         /// </summary>
         public List<Point> InputPoints { get; set; }
 
-        private IKNN _solver;
+        private IKnn _solver;
 
-        public Problem(IKNN solver)
+        public Problem(IKnn solver)
         {
             LearningPoints = new List<Point>();
             InputPoints = new List<Point>();
             _solver = solver;
         }
 
-        public void Solve()
+        public void Solve(int k)
         {
-            _solver.Train();
-            _solver.Classify();
+            _solver.Train(LearningPoints);
+            _solver.Classify(InputPoints, k);
         }
 
 
