@@ -13,19 +13,18 @@ namespace KNN
     /// </summary>
     class Loader
     {
-        private Problem _problem;
         private string _path;
         private StreamReader _reader;
 
-        public Loader(Problem problem, string path)
+        public Loader(string path )
         {
-            _problem = problem;
             _path = path;
             _reader = new StreamReader(path);
         }
 
-        public void LoadInput()
+        public List<Point> LoadPoints()
         {
+            List<Point> points = new List<Point>();
             bool firstLine = true;
             while (!_reader.EndOfStream)
             {
@@ -38,14 +37,17 @@ namespace KNN
                     point.Y = double.Parse(values[1], System.Globalization.CultureInfo.InvariantCulture);
                     point.TrueLabel = values[2];
                     point.DistanceToOrigin = Math.Sqrt(point.X * point.X + point.Y * point.Y);
-                    _problem.InputPoints.Add(point);
-                    _problem.InputPoints.OrderBy(p => p.DistanceToOrigin);
+                    points.Add(point);
+                    points.Sort((p1,p2) => p1.DistanceToOrigin.CompareTo(p2.DistanceToOrigin));
                 }
                 else
                 {
                     firstLine = false;
                 }
             }
+            return points;
         }
+
+        
     }
 }

@@ -32,5 +32,10 @@ namespace KnnLib
         /// Distance to the origin
         /// </summary>
         public double DistanceToOrigin { get; set; }
+
+        public double CalculateDistance(Point p)
+        {
+            return Math.Sqrt(Math.Pow(this.X - p.X, 2) + Math.Pow(this.Y - p.Y, 2));
+        }
     }
 }
