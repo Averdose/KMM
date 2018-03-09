@@ -13,6 +13,12 @@ namespace KNN
     /// </summary>
     class Loader
     {
+        public string Path { get { return _path; }
+            set {
+                _path = value;
+                _reader = new StreamReader(_path);
+            } }
+
         private string _path;
         private StreamReader _reader;
 
