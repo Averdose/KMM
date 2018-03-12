@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KNN
 {
-    interface IKnn
+    public interface IKnn
     {
         void Train(List<Point> trainSet);
         /// <summary>

@@ -11,12 +11,14 @@ namespace KNN
     /// <summary>
     /// Class responsible from loading data from a given csv file into a Problem class
     /// </summary>
-    class Loader
+    public class Loader
     {
         private string _path;
         private StreamReader _reader;
 
-        public Loader(string path )
+        public string Path { get; }
+
+        public Loader(string path)
         {
             _path = path;
             _reader = new StreamReader(path);
