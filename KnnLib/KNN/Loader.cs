@@ -13,51 +13,53 @@ namespace KNN
     /// </summary>
     public class Loader
     {
-        public string Path { get { return _path; }
-            set {
-                _path = value;
-                _reader = new StreamReader(_path);
-            } }
-
         private string _path;
-        private StreamReader _reader;
+        public string Path
+        {
+            get { return _path; }
+            set { _path = value; }
+        }
 
         public Loader()
         {
 
         }
-        public Loader(string path )
+        public Loader(string path)
         {
             _path = path;
-            _reader = new StreamReader(path);
         }
 
         public List<Point> LoadPoints()
         {
             List<Point> points = new List<Point>();
             bool firstLine = true;
-            while (!_reader.EndOfStream)
+            if(_path == null)
             {
-                var line = _reader.ReadLine();
-                if (!firstLine)
-                {
-                    var values = line.Split(',');
-                    Point point = new Point();
-                    point.X = double.Parse(values[0], System.Globalization.CultureInfo.InvariantCulture);
-                    point.Y = double.Parse(values[1], System.Globalization.CultureInfo.InvariantCulture);
-                    point.TrueLabel = values[2];
-                    point.DistanceToOrigin = Math.Sqrt(point.X * point.X + point.Y * point.Y);
-                    points.Add(point);
-                    points.Sort((p1,p2) => p1.DistanceToOrigin.CompareTo(p2.DistanceToOrigin));
-                }
-                else
-                {
-                    firstLine = false;
-                }
+                return null;
             }
-            return points;
+            using (var reader = new StreamReader(_path))
+            {
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    if (!firstLine)
+                    {
+                        var values = line.Split(',');
+                        Point point = new Point();
+                        point.X = double.Parse(values[0], System.Globalization.CultureInfo.InvariantCulture);
+                        point.Y = double.Parse(values[1], System.Globalization.CultureInfo.InvariantCulture);
+                        point.TrueLabel = values[2];
+                        point.DistanceToOrigin = Math.Sqrt(point.X * point.X + point.Y * point.Y);
+                        points.Add(point);
+                        points.Sort((p1, p2) => p1.DistanceToOrigin.CompareTo(p2.DistanceToOrigin));
+                    }
+                    else
+                    {
+                        firstLine = false;
+                    }
+                }
+                return points;
+            }
         }
-
-        
     }
 }

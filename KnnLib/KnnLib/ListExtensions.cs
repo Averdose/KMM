@@ -38,5 +38,20 @@ namespace KnnLib
             }
             return points;
         }
+
+        public static double Std<T>(this IEnumerable<T> enumerable, Func<T, double> selector, double avg)
+        {
+            var count = enumerable.Count();
+            var total = enumerable.Select(selector)
+                .Sum(n => Math.Pow(n - avg, 2));
+
+            return Math.Sqrt((1 / (float)count) * total);
+        }
+
+        public static double Avg<T>(this IEnumerable<T> enumerable, Func<T, double> selector)
+        {
+            return enumerable.Select(selector)
+                .Average();
+        }
     }
 }

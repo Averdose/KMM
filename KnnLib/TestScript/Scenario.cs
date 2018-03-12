@@ -18,9 +18,21 @@ namespace TestScript
         private Loader _loader;
         private int _classified;
         private int _datasetSize;
-
+        private int _testSize;
+        private float _accuracy;
         private TimeSpan _trainingTime;
         private TimeSpan _testTime;
+
+        public string Path { get { return _loader.Path; } }
+        public string Algorithm { get { return _knn.GetType().ToString(); } }
+        public int K { get { return _k; } }
+        public int DatasetSize { get { return _datasetSize; } }
+        public int TrainingSize { get { return _trainingSize; } }
+        public int Correct { get { return _classified; } }
+        public int TestSize { get { return _testSize; } }
+        public float Accuracy { get { return _accuracy; } }
+        public string TrainingTime { get { return _trainingTime.ToString(@"ss\:fffffff"); } }
+        public string TestTime { get { return _testTime.ToString(@"ss\:fffffff"); } }
 
         public Scenario(IKnn knn, Loader loader, int trainingSize, int k)
         {
@@ -30,13 +42,8 @@ namespace TestScript
             _k = k;
         }
 
-        public void Execute()
+        public void Execute(List<Point> points)
         {
-            var points = _loader.LoadPoints();
-            if(points == null || points.Count - 1 <= _trainingSize)
-            {
-                return;
-            }
             var training = points.Take(_trainingSize).ToList();
             var test = points.Skip(_trainingSize).ToList();
             var trainWatch = Stopwatch.StartNew();
@@ -47,21 +54,8 @@ namespace TestScript
             trainWatch.Stop();
             _classified = test.Count(n => n.ResultLabel == n.TrueLabel);
             _datasetSize = points.Count;
-        }
-
-        public void WriteToFile(string path)
-        {
-            var testSize = _datasetSize - _trainingSize;
-            Console.WriteLine("Dataset: {0}", _loader.Path);
-            Console.WriteLine("Dataset size: {0}", _datasetSize);
-            Console.WriteLine("Knn type: {0}", _knn.GetType());
-            Console.WriteLine("K param: {0}", _k);
-            Console.WriteLine("Training size: {0}", _trainingSize);
-            Console.WriteLine("Test size: {0}", testSize);
-            Console.WriteLine("Result: {0}/{1} ({2})", _classified, testSize,
-                _classified / (float)testSize);
-            Console.WriteLine("Training time: {0}", _trainingTime);
-            Console.WriteLine("Test time: {0}", _testTime);   
+            _testSize = _datasetSize - _trainingSize;
+            _accuracy = _classified / (float)_testSize;
         }
     }
 }

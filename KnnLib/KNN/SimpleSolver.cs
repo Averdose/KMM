@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KNN
 {
-    class SimpleSolver : IKnn
+    public class SimpleSolver : IKnn
     {
         private List<string> _classes;
         private List<Point> _trainSet;
