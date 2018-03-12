@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleInterface.cs" />
     <Compile Include="Drawer.cs" />
     <Compile Include="IKnn.cs" />
     <Compile Include="Loader.cs" />

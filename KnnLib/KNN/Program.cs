@@ -10,21 +10,113 @@ namespace KNN
     {
         static void Main(string[] args)
         {
-            MeanKnn solver = new MeanKnn();
+            IKnn solver = new SimpleSolver();
             Problem problem = new Problem(solver);
-            Loader loader = new Loader("data.simple.train.100.csv");
-            problem.LearningPoints = loader.LoadPoints();
-            loader.Path = "data.simple.train.1000.csv";
-            problem.InputPoints = loader.LoadPoints();
-            problem.Solve(20);
+            Loader loader = new Loader();
+            int k = 20;
+
+            if (args.Length == 4)
+            {
+                switch (args[0])
+                {
+                    case "1":
+                        solver = new SimpleSolver();
+                        break;
+                    case "2":
+                        solver = new MeanKnn();
+                        break;
+                    default:
+                        Console.WriteLine("invalid key, default simple solver has been selected");
+                        break;
+                }
+                try
+                {
+                    loader = new Loader(args[1]);
+                    problem.LearningPoints = loader.LoadPoints();
+                }
+                catch
+                {
+                    Console.WriteLine("An exception occured. Does the specified file exist?");
+                    return;
+                }
+                try
+                {
+                    loader.Path = args[2];
+                    problem.InputPoints = loader.LoadPoints();
+                }
+                catch
+                {
+                    Console.WriteLine("An exception occured. Does the specified file exist?");
+                    return;
+                }
+                try
+                {
+                    k = Convert.ToInt32(args[3]);
+
+                }
+                catch
+                {
+                    Console.WriteLine("Couldnt convert to an integer number a default number of 20 will be applied");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Select solver:");
+                Console.WriteLine("1: SimpleSolver");
+                Console.WriteLine("2: MeanKnn");
+
+                var key = Console.ReadKey().Key;
+                switch (key)
+                {
+                    case ConsoleKey.D1:
+                        solver = new SimpleSolver();
+                        break;
+                    case ConsoleKey.D2:
+                        solver = new MeanKnn();
+                        break;
+                    default:
+                        Console.WriteLine("invalid key, default simple solver has been selected");
+                        break;
+                }
+                Console.WriteLine("Please specify the training set");
+                try
+                {
+                    loader = new Loader(Console.ReadLine());
+                    problem.LearningPoints = loader.LoadPoints();
+                }
+                catch
+                {
+                    Console.WriteLine("An exception occured. Does the specified file exist?");
+                    return;
+                }
+                Console.WriteLine("Please specify the test set");
+                try
+                {
+                    loader.Path = Console.ReadLine();
+                    problem.InputPoints = loader.LoadPoints();
+                }
+                catch
+                {
+                    Console.WriteLine("An exception occured. Does the specified file exist?");
+                    return;
+                }
+                Console.WriteLine("Specify k");
+                try
+                {
+                    k = Convert.ToInt32(Console.ReadLine());
+
+                }
+                catch
+                {
+                    Console.WriteLine("Couldnt convert to an integer number a default number of 20 will be applied");
+                }
+            }
+            
+            problem.Solve(k);
             Drawer drawer = new Drawer(problem.InputPoints);
             drawer.DrawSolution();
-            /*
-            for(int i =0; i< problem.InputPoints.Count; i++)
-            {
-                Console.WriteLine("{0},{1} : our label {2} : true label{3}", problem.InputPoints[i].X, problem.InputPoints[i].Y, problem.InputPoints[i].ResultLabel, problem.InputPoints[i].TrueLabel);
-            }
-            */
+            Console.WriteLine("A solution has been printed");
+            
         }
     }
 }

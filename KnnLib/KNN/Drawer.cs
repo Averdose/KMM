@@ -61,7 +61,7 @@ namespace KNN
         }
         private string GenerateName()
         {
-            DateTime date = new DateTime();
+            DateTime date = DateTime.Now;
             return date.ToLongDateString() + ".jpg";
         }
 

@@ -9,18 +9,35 @@ namespace KNN
 {
     class SimpleSolver : IKnn
     {
+        private List<string> _classes;
+        private List<Point> _trainSet;
         public void Classify(List<Point> testSet, int k)
         {
-            //Point[] neighbourPoints = new Point[k];
-            //for(int i = 0; i< problem.InputPoints.Count; ++i)
-            //{
-
-            //}
+            for(int i = 0; i< testSet.Count; ++i)
+            {
+                for(int j =0; j < _trainSet.Count; ++j)
+                {
+                    _trainSet[j].DistanceToSample = _trainSet[j].CalculateDistance(testSet[i]);
+                }
+                List<Point> top = _trainSet.TopK(p => p.DistanceToSample, k);
+                var votes = new Dictionary<string, double>();
+                foreach (var c in _classes)
+                {
+                    votes.Add(c, 0);
+                }
+                for(int j =0; j< top.Count; ++j)
+                {
+                    votes[top[j].TrueLabel] += 1;
+                }
+                var max = votes.Max(n => n.Value);
+                testSet[i].ResultLabel = votes.First(n => n.Value == max).Key;
+            }
         }
 
         public void Train(List<Point> trainSet)
         {
-            
+            _classes = trainSet.Select(n => n.TrueLabel).Distinct().ToList();
+            _trainSet = trainSet;
         }
 
         /// <summary>

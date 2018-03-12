@@ -22,6 +22,10 @@ namespace KNN
         private string _path;
         private StreamReader _reader;
 
+        public Loader()
+        {
+
+        }
         public Loader(string path )
         {
             _path = path;
