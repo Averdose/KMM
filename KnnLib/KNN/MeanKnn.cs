@@ -7,8 +7,9 @@ using KnnLib;
 
 namespace KNN
 {
-    class MeanKnn : IKnn
+    public class MeanKnn : IKnn
     {
+        private const double Error = 1e-16;
         private Dictionary<string, Point> _means;
         private Dictionary<string, double> _counts;
         private List<Point> _trainSet;
@@ -68,7 +69,7 @@ namespace KNN
             }
             for (int i = 0; i < trainSet.Count; i++)
             {
-                trainSet[i].DistanceToMean = trainSet[i].CalculateDistance(_means[trainSet[i].TrueLabel]);
+                trainSet[i].DistanceToMean = trainSet[i].CalculateDistance(_means[trainSet[i].TrueLabel]) + Error;
             }
             _maxDistance = trainSet.Max(n => n.DistanceToMean);
             _trainSet = trainSet;
