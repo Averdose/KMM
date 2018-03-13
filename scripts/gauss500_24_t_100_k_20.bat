@@ -1,0 +1,1 @@
+start ../KnnLib/TestScript/bin/Release/TestScript.exe ../data/data.three_gauss.train.100.csv 24 t 100 k 20

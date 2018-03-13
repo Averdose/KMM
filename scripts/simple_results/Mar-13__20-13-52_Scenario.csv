@@ -1,0 +1,3 @@
+Path,Algorithm,K,DatasetSize,TrainingSize,Correct,TestSize,Accuracy,TrainingTime,TestTime
+../data/data.simple.train.1000.csv,KNN.MeanKnn,20,1000,100,831,900,0.9233333,00:0028014,00:0346066
+../data/data.simple.train.1000.csv,KNN.SimpleSolver,20,1000,100,831,900,0.9233333,00:0003850,00:0289619

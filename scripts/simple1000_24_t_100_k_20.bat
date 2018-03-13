@@ -1,0 +1,1 @@
+start ../KnnLib/TestScript/bin/Release/TestScript.exe ../data/data.simple.train.1000.csv 24 t 100 k 20
