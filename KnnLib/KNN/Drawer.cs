@@ -14,8 +14,8 @@ namespace KNN
     {
         private Bitmap _bmp;
         private List<KnnLib.Point> _points;
-        private const int WIDTH = 200;
-        private const int HEIGHT = 200;
+        private const int WIDTH = 800;
+        private const int HEIGHT = 800;
 
 
         public Drawer(List<KnnLib.Point> points)

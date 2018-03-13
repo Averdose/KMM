@@ -78,6 +78,7 @@ namespace KNN
                         Console.WriteLine("invalid key, default simple solver has been selected");
                         break;
                 }
+                Console.WriteLine();
                 Console.WriteLine("Please specify the training set");
                 try
                 {
