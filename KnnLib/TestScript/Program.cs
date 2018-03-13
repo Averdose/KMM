@@ -51,6 +51,7 @@ namespace TestScript
                         if(!int.TryParse(args[i], out iterations) || iterations <= 0 || (iterations % 4 != 0 && iterations != 1))
                         {
                             Console.WriteLine("Invalid number of iterations");
+                            Console.ReadKey();
                             return;
                         }
                     }
@@ -68,6 +69,7 @@ namespace TestScript
                         if (!int.TryParse(args[i], out t) || t >= dataset.Count - 1 || t <= 0)
                         {
                             Console.WriteLine("Invalid training size: {0}", t);
+                            Console.ReadKey();
                             return;
                         }
                         trainingSizes.Add(t);
@@ -78,6 +80,7 @@ namespace TestScript
                         if (!int.TryParse(args[i], out k) || k <= 0)
                         {
                             Console.WriteLine("Invalid k: {0}", k);
+                            Console.ReadKey();
                             return;
                         }
                         ks.Add(k);
@@ -87,11 +90,13 @@ namespace TestScript
             catch(IOException e)
             {
                 Console.WriteLine("Invalid path");
+                Console.ReadKey();
                 return;
             }
             if(ks.Count == 0 || trainingSizes.Count == 0)
             {
                 Console.WriteLine("Not enough args, usage: ./program.exe dataset_path t 100 50 20 k 5 6 7");
+                Console.ReadKey();
                 return;
             }
 
@@ -156,6 +161,7 @@ namespace TestScript
             resultWriter.WriteResults(scenarios, date);
             resultWriter.WriteResults(TotalScenario.GetTotalScenarios(scenarios), date);
             Console.WriteLine("Done.");
+            Console.ReadKey();
         }
     }
 }
