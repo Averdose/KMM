@@ -51,13 +51,13 @@ namespace KNN
                         point.TrueLabel = values[2];
                         point.DistanceToOrigin = Math.Sqrt(point.X * point.X + point.Y * point.Y);
                         points.Add(point);
-                        points.Sort((p1, p2) => p1.DistanceToOrigin.CompareTo(p2.DistanceToOrigin));
                     }
                     else
                     {
                         firstLine = false;
                     }
                 }
+                points.Sort((p1, p2) => p1.DistanceToOrigin.CompareTo(p2.DistanceToOrigin));
                 return points;
             }
         }

@@ -12,17 +12,19 @@ namespace TestScript
 {
     class Program
     {
-        static RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
-        static byte[] byteArray = new byte[4];
-
-        private static uint GetVal()
-        {
-            provider.GetBytes(byteArray);
-            return BitConverter.ToUInt32(byteArray, 0);
-        }
+        
         public static List<Point> Randomize<Point>(List<Point> source)
         {
-            return source.OrderBy(n => GetVal()).ToList();
+            Random r = new Random();
+            var res = source.ToList();
+            for (int i = 0; i < source.Count; i++)
+            {
+                Point temp = res[i];
+                int randomIndex = r.Next(i, source.Count);
+                res[i] = res[randomIndex];
+                res[randomIndex] = temp;
+            }
+            return res;
         }
 
         static void Main(string[] args)
@@ -100,32 +102,29 @@ namespace TestScript
                     Console.WriteLine("Batch: size - {0}, k - {1}", size, k);
                     if(iterations > 1)
                     {
-                        for(int j = 0; j < iterations / 4; j++)
+                        for(int j = 0; j < iterations; j++)
                         {
-                            Parallel.For(0, 4, new Action<int>( n =>
+                            var p = Randomize(dataset);
+                            var s = new Scenario(new MeanKnn(), loader, size, k);
+                            s.Execute(p.Select(pt => new Point()
                             {
-                                var p = Randomize(dataset);
-                                var s = new Scenario(new MeanKnn(), loader, size, k);
-                                s.Execute(p.Select(pt => new Point()
-                                {
-                                    X = pt.X,
-                                    Y = pt.Y,
-                                    DistanceToOrigin = pt.DistanceToOrigin,
-                                    TrueLabel = pt.TrueLabel
-                                }).ToList());
-                                Console.WriteLine("Mean :" + s.Accuracy);
-                                scenarios.Add(s);
-                                s = new Scenario(new SimpleSolver(), loader, size, k);
-                                s.Execute(p.Select(pt => new Point()
-                                {
-                                    X = pt.X,
-                                    Y = pt.Y,
-                                    DistanceToOrigin = pt.DistanceToOrigin,
-                                    TrueLabel = pt.TrueLabel
-                                }).ToList());
-                                Console.WriteLine("Simple :" + s.Accuracy);
-                                scenarios.Add(s);  
-                            }));
+                                X = pt.X,
+                                Y = pt.Y,
+                                DistanceToOrigin = pt.DistanceToOrigin,
+                                TrueLabel = pt.TrueLabel
+                            }).ToList());
+                            Console.WriteLine("Mean :" + s.Accuracy);
+                            scenarios.Add(s);
+                            s = new Scenario(new SimpleSolver(), loader, size, k);
+                            s.Execute(p.Select(pt => new Point()
+                            {
+                                X = pt.X,
+                                Y = pt.Y,
+                                DistanceToOrigin = pt.DistanceToOrigin,
+                                TrueLabel = pt.TrueLabel
+                            }).ToList());
+                            Console.WriteLine("Simple :" + s.Accuracy);
+                            scenarios.Add(s);
                         }
                     }
                     else
@@ -140,7 +139,13 @@ namespace TestScript
                         }).ToList());
                         scenarios.Add(s);
                         s = new Scenario(new SimpleSolver(), loader, size, k);
-                        s.Execute(dataset);
+                        s.Execute(dataset.Select(pt => new Point()
+                        {
+                            X = pt.X,
+                            Y = pt.Y,
+                            DistanceToOrigin = pt.DistanceToOrigin,
+                            TrueLabel = pt.TrueLabel
+                        }).ToList());
                         scenarios.Add(s);
                     }
                 }
