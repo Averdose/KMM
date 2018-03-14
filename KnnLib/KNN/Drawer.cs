@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using KnnLib;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace KNN
 {
@@ -52,9 +53,9 @@ namespace KNN
                     _bmp.SetPixel(Normalize(_points[i].X, maksX), HEIGHT - 1 - Normalize(_points[i].Y, maksY), Color.Blue);
                 }
             }
-            string tmp = GenerateName();
-            _bmp.Save(GenerateName());
-            ProcessStartInfo startInfo = new ProcessStartInfo(tmp);
+            string fileName = GenerateName();
+            _bmp.Save(fileName);
+            ProcessStartInfo startInfo = new ProcessStartInfo(fileName);
             Process.Start(startInfo);
         }
 
@@ -70,7 +71,7 @@ namespace KNN
         private string GenerateName()
         {
             DateTime date = DateTime.Now;
-            return date.ToLongDateString() + ".png";
+            return date.ToString("yyyy-MMM-dd__HH-mm-ss_", CultureInfo.InvariantCulture) + ".png";
         }
 
     }
