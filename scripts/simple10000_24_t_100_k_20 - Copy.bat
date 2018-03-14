@@ -1,0 +1,1 @@
+start ../KnnLib/TestScript/bin/Release/TestScript.exe ../data/data.circles.train.10000.csv 1 t 100 k 8

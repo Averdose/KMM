@@ -14,8 +14,8 @@ namespace KNN
     {
         private Bitmap _bmp;
         private List<KnnLib.Point> _points;
-        private const int WIDTH = 800;
-        private const int HEIGHT = 800;
+        private const int WIDTH = 200;
+        private const int HEIGHT = 200;
 
 
         public Drawer(List<KnnLib.Point> points)
@@ -42,11 +42,15 @@ namespace KNN
                 if (_points[i].ResultLabel == "1")
                 {
                     double temp = HEIGHT - 1 - Normalize(_points[i].Y, maksY);
-                    _bmp.SetPixel(Normalize(_points[i].X, maksX), HEIGHT - 1 - Normalize(_points[i].Y, maksY), Color.Red);
+                    _bmp.SetPixel(Normalize(_points[i].X, maksX), HEIGHT - 1 - Normalize(_points[i].Y, maksY), Color.Black);
                 }
                 else if(_points[i].ResultLabel == "2")
                 {
-                    _bmp.SetPixel(Normalize(_points[i].X, maksX), HEIGHT -1 - Normalize(_points[i].Y, maksY), Color.Green);
+                    _bmp.SetPixel(Normalize(_points[i].X, maksX), HEIGHT -1 - Normalize(_points[i].Y, maksY), Color.Red);
+                }
+                else if(_points[i].ResultLabel == "3")
+                {
+                    _bmp.SetPixel(Normalize(_points[i].X, maksX), HEIGHT - 1 - Normalize(_points[i].Y, maksY), Color.Green);
                 }
                 else
                 {
