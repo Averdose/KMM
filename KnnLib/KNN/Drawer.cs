@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using KnnLib;
-
-
+using System.Diagnostics;
 
 namespace KNN
 {
@@ -55,7 +54,8 @@ namespace KNN
             }
             string tmp = GenerateName();
             _bmp.Save(GenerateName());
-
+            ProcessStartInfo startInfo = new ProcessStartInfo(tmp);
+            Process.Start(startInfo);
         }
 
         private int Normalize(double number, double maks)
@@ -70,7 +70,7 @@ namespace KNN
         private string GenerateName()
         {
             DateTime date = DateTime.Now;
-            return date.ToLongDateString() + ".jpg";
+            return date.ToLongDateString() + ".png";
         }
 
     }
